@@ -13,7 +13,7 @@ class CreateTanamansTable extends Migration
             $table->foreignId('ID_Lahan')->constrained('lahans', 'ID_Lahan')->onDelete('cascade');
             $table->string('Jenis_Tanaman');
             $table->string('Varietas');
-            $table->date('Tanggal_Penanaman');
+            $table->date('Tanggal_Penanaman')->nullable();
             $table->date('Perkiraan_Panen')->nullable();
             $table->enum('Status', ['ditanam', 'tumbuh', 'panen', 'gagal'])->default('ditanam');
             $table->text('Catatan')->nullable();

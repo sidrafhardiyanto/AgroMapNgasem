@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Carbon\Carbon;
 
 class Tanaman extends Model
 {
@@ -31,8 +31,8 @@ class Tanaman extends Model
     ];
 
     protected $casts = [
-        'Tanggal_Penanaman' => 'date',
-        'Perkiraan_Panen' => 'date'
+        'Tanggal_Penanaman' => 'datetime',
+        'Perkiraan_Panen' => 'datetime'
     ];
 
     public function lahan()
@@ -45,17 +45,23 @@ class Tanaman extends Model
         return $this->hasMany(HamaPenyakit::class, 'ID_Tanaman', 'ID_Tanaman');
     }
 
-    protected function tanggalPenanaman(): Attribute
+    public function getTanggalPenanamanFormattedAttribute()
     {
-        return Attribute::make(
-            get: fn ($value) => $value ? \Carbon\Carbon::parse($value) : null,
-        );
+        return $this->Tanggal_Penanaman ? Carbon::parse($this->Tanggal_Penanaman)->format('d/m/Y') : '-';
     }
 
-    protected function perkiraanPanen(): Attribute
+    public function getPerkiraanPanenFormattedAttribute()
     {
-        return Attribute::make(
-            get: fn ($value) => $value ? \Carbon\Carbon::parse($value) : null,
-        );
+        return $this->Perkiraan_Panen ? Carbon::parse($this->Perkiraan_Panen)->format('d/m/Y') : '-';
+    }
+
+    public function getUsiaTanamanAttribute()
+    {
+        return $this->Tanggal_Penanaman ? Carbon::parse($this->Tanggal_Penanaman)->diffInDays(now()) : 0;
+    }
+
+    public function getSisaHariPanenAttribute()
+    {
+        return $this->Perkiraan_Panen ? Carbon::parse($this->Perkiraan_Panen)->diffInDays(now()) : 0;
     }
 }

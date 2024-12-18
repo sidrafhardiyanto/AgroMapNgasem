@@ -9,7 +9,7 @@ class PenyuluhPetaniLapangan extends Model
 {
     use HasFactory;
 
-    protected $table = 'penyuluh_petani_lapangan';
+    protected $table = 'ppls';
     protected $primaryKey = 'id_ppl';
 
     protected $fillable = [

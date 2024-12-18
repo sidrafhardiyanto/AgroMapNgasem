@@ -25,11 +25,23 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Tanggal Tanam</label>
-                            <p>{{ $tanaman->Tanggal_Penanaman ? $tanaman->Tanggal_Penanaman->format('d/m/Y') : '-' }}</p>
+                            <p>@php
+                                try {
+                                    echo $tanaman->Tanggal_Penanaman ? $tanaman->Tanggal_Penanaman->format('d/m/Y') : '-';
+                                } catch (\Exception $e) {
+                                    echo '-';
+                                }
+                            @endphp</p>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Perkiraan Panen</label>
-                            <p>{{ $tanaman->Perkiraan_Panen ? $tanaman->Perkiraan_Panen->format('d/m/Y') : '-' }}</p>
+                            <p>@php
+                                try {
+                                    echo $tanaman->Perkiraan_Panen ? $tanaman->Perkiraan_Panen->format('d/m/Y') : '-';
+                                } catch (\Exception $e) {
+                                    echo '-';
+                                }
+                            @endphp</p>
                         </div>
                     </div>
 
@@ -78,7 +90,13 @@
                             <tbody>
                                 @forelse($tanaman->hamas as $hama)
                                 <tr>
-                                    <td>{{ $hama->tanggal_laporan ? $hama->tanggal_laporan->format('d/m/Y') : '-' }}</td>
+                                    <td>@php
+                                        try {
+                                            echo $hama->tanggal_laporan ? $hama->tanggal_laporan->format('d/m/Y') : '-';
+                                        } catch (\Exception $e) {
+                                            echo '-';
+                                        }
+                                    @endphp</td>
                                     <td>{{ ucfirst($hama->jenis) }}</td>
                                     <td>{{ $hama->nama }}</td>
                                     <td>
@@ -118,7 +136,13 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label">Usia Tanaman</label>
-                        <h4>{{ $tanaman->Tanggal_Penanaman ? $tanaman->Tanggal_Penanaman->diffInDays(now()) : 0 }} Hari</h4>
+                        <h4>@php
+                            try {
+                                echo $tanaman->Tanggal_Penanaman ? $tanaman->Tanggal_Penanaman->diffInDays(now()) : 0;
+                            } catch (\Exception $e) {
+                                echo 0;
+                            }
+                        @endphp Hari</h4>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Total Serangan Hama/Penyakit</label>
@@ -127,7 +151,13 @@
                     @if($tanaman->Perkiraan_Panen)
                     <div class="mb-3">
                         <label class="form-label">Perkiraan Waktu Panen</label>
-                        <h4>{{ $tanaman->Perkiraan_Panen->diffInDays(now()) }} Hari Lagi</h4>
+                        <h4>@php
+                            try {
+                                echo $tanaman->Perkiraan_Panen->diffInDays(now());
+                            } catch (\Exception $e) {
+                                echo 0;
+                            }
+                        @endphp Hari Lagi</h4>
                     </div>
                     @endif
                 </div>

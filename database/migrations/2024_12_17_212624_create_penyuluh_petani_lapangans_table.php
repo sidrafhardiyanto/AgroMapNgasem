@@ -25,6 +25,6 @@ class CreatePenyuluhPetaniLapangansTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penyuluh_petani_lapangans');
+        Schema::dropIfExists('ppls');
     }
 };

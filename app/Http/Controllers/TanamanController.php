@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tanaman;
 use App\Models\Lahan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TanamanController extends Controller
 {
@@ -35,6 +36,14 @@ class TanamanController extends Controller
             'Catatan' => 'nullable|string'
         ]);
 
+        // Convert dates to Carbon instances
+        if (isset($validated['Tanggal_Penanaman'])) {
+            $validated['Tanggal_Penanaman'] = Carbon::parse($validated['Tanggal_Penanaman']);
+        }
+        if (isset($validated['Perkiraan_Panen'])) {
+            $validated['Perkiraan_Panen'] = Carbon::parse($validated['Perkiraan_Panen']);
+        }
+
         Tanaman::create($validated);
 
         return redirect()->route('tanamans.index')
@@ -43,7 +52,16 @@ class TanamanController extends Controller
 
     public function show(Tanaman $tanaman)
     {
-        $tanaman->load('lahan');
+        $tanaman->load('lahan', 'hamas');
+        
+        // Convert dates to Carbon instances if they exist
+        if ($tanaman->Tanggal_Penanaman) {
+            $tanaman->Tanggal_Penanaman = Carbon::parse($tanaman->Tanggal_Penanaman);
+        }
+        if ($tanaman->Perkiraan_Panen) {
+            $tanaman->Perkiraan_Panen = Carbon::parse($tanaman->Perkiraan_Panen);
+        }
+
         return view('tanamans.show', compact('tanaman'));
     }
 
@@ -64,6 +82,14 @@ class TanamanController extends Controller
             'Status' => 'required|in:ditanam,tumbuh,panen,gagal',
             'Catatan' => 'nullable|string'
         ]);
+
+        // Convert dates to Carbon instances
+        if (isset($validated['Tanggal_Penanaman'])) {
+            $validated['Tanggal_Penanaman'] = Carbon::parse($validated['Tanggal_Penanaman']);
+        }
+        if (isset($validated['Perkiraan_Panen'])) {
+            $validated['Perkiraan_Panen'] = Carbon::parse($validated['Perkiraan_Panen']);
+        }
 
         $tanaman->update($validated);
 
