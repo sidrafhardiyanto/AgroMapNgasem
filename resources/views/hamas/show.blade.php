@@ -13,7 +13,13 @@
                 <div class="card-body">
                     <div class="row mb-4">
                         <div class="col-md-6">
-
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Tanaman</label>
+                                <p>{{ $hama->tanaman->Jenis_Tanaman }} - {{ $hama->tanaman->Varietas }}</p>
+                                <p class="text-muted">
+                                    Lahan: {{ $hama->tanaman->lahan->pemilik }}
+                                </p>
+                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Jenis</label>
@@ -56,7 +62,16 @@
                                 <label class="form-label fw-bold">Foto</label>
                                 <div>
                                     <img src="{{ asset('storage/' . $hama->foto) }}" alt="Foto" class="img-fluid rounded">
+                                    <div class="mt-2 small text-muted">
+                                        Path: {{ $hama->foto }}<br>
+                                        Full URL: {{ asset('storage/' . $hama->foto) }}
+                                    </div>
                                 </div>
+                            </div>
+                            @else
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Foto</label>
+                                <p class="text-muted">Tidak ada foto</p>
                             </div>
                             @endif
                         </div>
@@ -82,24 +97,6 @@
                         </form>
                         <a href="{{ route('hamas.index') }}" class="btn btn-secondary">Kembali</a>
                     </div>
-                </div>
-            </div>
-
-            <!-- Rekomendasi Terkait -->
-            <div class="card mt-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Rekomendasi Terkait</h5>
-                </div>
-                <div class="card-body">
-                    @forelse($hama->tanaman->lahan->rekomendasis->where('tanggal_rekomendasi', '>=', $hama->tanggal_laporan) as $rekomendasi)
-                    <div class="mb-3">
-                        <h6>{{ $rekomendasi->judul }}</h6>
-                        <p class="small text-muted">{{ $rekomendasi->tanggal_rekomendasi->format('d/m/Y') }}</p>
-                        <p>{{ $rekomendasi->isi_rekomendasi }}</p>
-                    </div>
-                    @empty
-                    <p class="text-muted">Belum ada rekomendasi terkait</p>
-                    @endforelse
                 </div>
             </div>
         </div>

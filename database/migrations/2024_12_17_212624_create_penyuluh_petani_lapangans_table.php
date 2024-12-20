@@ -16,6 +16,7 @@ class CreatePenyuluhPetaniLapangansTable extends Migration
             $table->string('Nama'); // Nama PPL
             $table->string('Email')->unique(); // Email PPL
             $table->string('Password'); // Password PPL
+            $table->string('No_Telepon')->nullable();
             $table->timestamps(); // Kolom created_at dan updated_at
         });
     }

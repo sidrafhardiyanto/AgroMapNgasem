@@ -25,9 +25,9 @@ class PPLController extends Controller
     {
         $validated = $request->validate([
             'Nama' => 'required|string|max:255',
-            'Email' => 'required|email|unique:penyuluh_petani_lapangan,Email',
+            'Email' => 'required|email|unique:ppls,Email',
             'Password' => 'required|min:6',
-            'no_telepon' => 'nullable|string|max:15'
+            'No_Telepon' => 'nullable|string|max:15'
         ]);
 
         $validated['Password'] = bcrypt($validated['Password']);
@@ -55,9 +55,9 @@ class PPLController extends Controller
     {
         $validated = $request->validate([
             'Nama' => 'required|string|max:255',
-            'Email' => 'required|email|unique:penyuluh_petani_lapangan,Email,' . $ppl->id_ppl . ',id_ppl',
+            'Email' => 'required|email|unique:ppls,Email,' . $ppl->ID_PPL . ',ID_PPL',
             'Password' => 'nullable|min:6',
-            'no_telepon' => 'nullable|string|max:15'
+            'No_Telepon' => 'nullable|string|max:15'
         ]);
 
         if ($validated['Password']) {

@@ -14,19 +14,19 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="id_tanaman" class="form-label">Tanaman</label>
-                            <select class="form-select @error('id_tanaman') is-invalid @enderror" 
-                                id="id_tanaman" name="id_tanaman" required>
+                            <label for="ID_Tanaman" class="form-label">Tanaman</label>
+                            <select class="form-select @error('ID_Tanaman') is-invalid @enderror" 
+                                id="ID_Tanaman" name="ID_Tanaman" required>
                                 <option value="">Pilih Tanaman</option>
                                 @foreach($tanamans as $tanaman)
-                                    <option value="{{ $tanaman->id_tanaman }}" 
-                                        {{ old('id_tanaman', request('tanaman_id')) == $tanaman->id_tanaman ? 'selected' : '' }}>
-                                        {{ $tanaman->jenis_tanaman }} - {{ $tanaman->varietas }} 
+                                    <option value="{{ $tanaman->ID_Tanaman }}" 
+                                        {{ old('ID_Tanaman', request('tanaman_id')) == $tanaman->ID_Tanaman ? 'selected' : '' }}>
+                                        {{ $tanaman->Jenis_Tanaman }} - {{ $tanaman->Varietas }} 
                                         ({{ $tanaman->lahan->pemilik }})
                                     </option>
                                 @endforeach
                             </select>
-                            @error('id_tanaman')
+                            @error('ID_Tanaman')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -34,6 +34,7 @@
                         <div class="mb-3">
                             <label for="jenis" class="form-label">Jenis</label>
                             <select class="form-select @error('jenis') is-invalid @enderror" id="jenis" name="jenis" required>
+                                <option value="">Pilih Jenis</option>
                                 <option value="hama" {{ old('jenis') == 'hama' ? 'selected' : '' }}>Hama</option>
                                 <option value="virus" {{ old('jenis') == 'virus' ? 'selected' : '' }}>Virus</option>
                                 <option value="penyakit" {{ old('jenis') == 'penyakit' ? 'selected' : '' }}>Penyakit</option>
@@ -65,6 +66,7 @@
                             <label for="tingkat_serangan" class="form-label">Tingkat Serangan</label>
                             <select class="form-select @error('tingkat_serangan') is-invalid @enderror" 
                                 id="tingkat_serangan" name="tingkat_serangan" required>
+                                <option value="">Pilih Tingkat Serangan</option>
                                 <option value="ringan" {{ old('tingkat_serangan') == 'ringan' ? 'selected' : '' }}>Ringan</option>
                                 <option value="sedang" {{ old('tingkat_serangan') == 'sedang' ? 'selected' : '' }}>Sedang</option>
                                 <option value="berat" {{ old('tingkat_serangan') == 'berat' ? 'selected' : '' }}>Berat</option>

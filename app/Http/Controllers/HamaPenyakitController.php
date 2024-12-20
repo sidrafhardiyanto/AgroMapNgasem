@@ -11,7 +11,7 @@ class HamaPenyakitController extends Controller
 {
     public function index()
     {
-        $hamaPenyakits = HamaPenyakit::with(['tanaman.lahan.ppl'])
+        $hamaPenyakits = HamaPenyakit::with(['tanaman.lahan'])
             ->latest('tanggal_laporan')
             ->paginate(10);
             
@@ -27,21 +27,21 @@ class HamaPenyakitController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_tanaman' => 'required|exists:tanamans,id_tanaman',
+            'ID_Tanaman' => 'required|exists:tanamans,ID_Tanaman',
             'jenis' => 'required|in:hama,virus,penyakit',
             'nama' => 'required|string|max:255',
             'tanggal_laporan' => 'required|date',
             'tingkat_serangan' => 'required|in:ringan,sedang,berat',
             'gejala' => 'required|string',
             'penanganan' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048' // max 2MB
+            'foto' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:5120'
         ]);
 
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('hama-penyakit', 'public');
         }
 
-        $validated['status'] = 'proses'; // default status
+        $validated['status'] = 'proses';
 
         HamaPenyakit::create($validated);
 
@@ -51,6 +51,7 @@ class HamaPenyakitController extends Controller
 
     public function show(HamaPenyakit $hama)
     {
+        $hama->load('tanaman.lahan');
         return view('hamas.show', compact('hama'));
     }
 
@@ -63,7 +64,7 @@ class HamaPenyakitController extends Controller
     public function update(Request $request, HamaPenyakit $hama)
     {
         $validated = $request->validate([
-            'id_tanaman' => 'required|exists:tanamans,id_tanaman',
+            'ID_Tanaman' => 'required|exists:tanamans,ID_Tanaman',
             'jenis' => 'required|in:hama,virus,penyakit',
             'nama' => 'required|string|max:255',
             'tanggal_laporan' => 'required|date',
@@ -71,11 +72,10 @@ class HamaPenyakitController extends Controller
             'status' => 'required|in:proses,teratasi',
             'gejala' => 'required|string',
             'penanganan' => 'nullable|string',
-            'foto' => 'nullable|image|max:2048'
+            'foto' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:5120'
         ]);
 
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($hama->foto) {
                 Storage::disk('public')->delete($hama->foto);
             }
@@ -102,7 +102,7 @@ class HamaPenyakitController extends Controller
 
     public function filter(Request $request)
     {
-        $query = HamaPenyakit::with(['tanaman.lahan.ppl']);
+        $query = HamaPenyakit::with(['tanaman.lahan']);
 
         if ($request->jenis) {
             $query->where('jenis', $request->jenis);

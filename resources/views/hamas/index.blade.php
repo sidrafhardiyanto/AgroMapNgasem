@@ -69,7 +69,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $hama->tanggal_laporan->format('d/m/Y') }}</td>
-                    <td>{{ $hama->tanaman->jenis_tanaman }} ({{ $hama->tanaman->varietas }})</td>
+                    <td>{{ $hama->tanaman->Jenis_Tanaman }} ({{ $hama->tanaman->Varietas }})</td>
                     <td>{{ ucfirst($hama->jenis) }}</td>
                     <td>{{ $hama->nama }}</td>
                     <td>

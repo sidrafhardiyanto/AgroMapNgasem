@@ -8,12 +8,16 @@ class CreateHamasTable extends Migration
     public function up()
     {
         Schema::create('hamas', function (Blueprint $table) {
-            $table->id('ID_Hama'); // Primary Key
-            $table->foreignId('ID_Tanaman')->constrained('tanamans', 'ID_Tanaman'); // Foreign Key
-            $table->string('Jenis_Hama_Virus_Penyakit'); // Jenis hama atau penyakit
-            $table->text('Deskripsi'); // Deskripsi masalah
-            $table->date('Tanggal_Laporan'); // Tanggal laporan
-            $table->string('Foto')->nullable(); // Foto masalah (opsional)
+            $table->id('ID_Hama');
+            $table->foreignId('ID_Tanaman')->constrained('tanamans', 'ID_Tanaman')->onDelete('cascade');
+            $table->enum('jenis', ['hama', 'virus', 'penyakit']);
+            $table->string('nama');
+            $table->date('tanggal_laporan');
+            $table->enum('tingkat_serangan', ['ringan', 'sedang', 'berat']);
+            $table->enum('status', ['proses', 'teratasi'])->default('proses');
+            $table->text('gejala');
+            $table->text('penanganan')->nullable();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

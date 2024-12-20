@@ -10,13 +10,21 @@ class PenyuluhPetaniLapangan extends Model
     use HasFactory;
 
     protected $table = 'ppls';
-    protected $primaryKey = 'id_ppl';
+    protected $primaryKey = 'ID_PPL';
 
     protected $fillable = [
         'Nama',
         'Email',
         'Password',
-        'no_telepon'
+        'No_Telepon'
     ];
 
+    protected $hidden = [
+        'Password'
+    ];
+
+    public function lahans()
+    {
+        return $this->hasMany(Lahan::class, 'ID_PPL', 'ID_PPL');
+    }
 }

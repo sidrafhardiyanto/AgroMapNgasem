@@ -15,19 +15,19 @@
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="id_tanaman" class="form-label">Tanaman</label>
-                            <select class="form-select @error('id_tanaman') is-invalid @enderror" 
-                                id="id_tanaman" name="id_tanaman" required>
+                            <label for="ID_Tanaman" class="form-label">Tanaman</label>
+                            <select class="form-select @error('ID_Tanaman') is-invalid @enderror" 
+                                id="ID_Tanaman" name="ID_Tanaman" required>
                                 <option value="">Pilih Tanaman</option>
                                 @foreach($tanamans as $tanaman)
-                                    <option value="{{ $tanaman->id_tanaman }}" 
-                                        {{ old('id_tanaman', $hama->id_tanaman) == $tanaman->id_tanaman ? 'selected' : '' }}>
-                                        {{ $tanaman->jenis_tanaman }} - {{ $tanaman->varietas }} 
+                                    <option value="{{ $tanaman->ID_Tanaman }}" 
+                                        {{ old('ID_Tanaman', $hama->ID_Tanaman) == $tanaman->ID_Tanaman ? 'selected' : '' }}>
+                                        {{ $tanaman->Jenis_Tanaman }} - {{ $tanaman->Varietas }} 
                                         ({{ $tanaman->lahan->pemilik }})
                                     </option>
                                 @endforeach
                             </select>
-                            @error('id_tanaman')
+                            @error('ID_Tanaman')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -35,6 +35,7 @@
                         <div class="mb-3">
                             <label for="jenis" class="form-label">Jenis</label>
                             <select class="form-select @error('jenis') is-invalid @enderror" id="jenis" name="jenis" required>
+                                <option value="">Pilih Jenis</option>
                                 <option value="hama" {{ old('jenis', $hama->jenis) == 'hama' ? 'selected' : '' }}>Hama</option>
                                 <option value="virus" {{ old('jenis', $hama->jenis) == 'virus' ? 'selected' : '' }}>Virus</option>
                                 <option value="penyakit" {{ old('jenis', $hama->jenis) == 'penyakit' ? 'selected' : '' }}>
@@ -69,6 +70,7 @@
                             <label for="tingkat_serangan" class="form-label">Tingkat Serangan</label>
                             <select class="form-select @error('tingkat_serangan') is-invalid @enderror" 
                                 id="tingkat_serangan" name="tingkat_serangan" required>
+                                <option value="">Pilih Tingkat Serangan</option>
                                 <option value="ringan" 
                                     {{ old('tingkat_serangan', $hama->tingkat_serangan) == 'ringan' ? 'selected' : '' }}>
                                     Ringan
@@ -91,6 +93,7 @@
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select @error('status') is-invalid @enderror" 
                                 id="status" name="status" required>
+                                <option value="">Pilih Status</option>
                                 <option value="proses" {{ old('status', $hama->status) == 'proses' ? 'selected' : '' }}>
                                     Proses Penanganan
                                 </option>
