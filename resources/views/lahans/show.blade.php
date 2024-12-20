@@ -34,7 +34,6 @@
                         </div>
                     </div>
 
-
                     <div class="mb-3">
                         <label class="form-label fw-bold">Keterangan</label>
                         <p>{{ $lahan->keterangan ?? '-' }}</p>
@@ -51,7 +50,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Tanaman yang Ditanam</h5>
-                    <a href="{{ route('tanamans.create', ['lahan_id' => $lahan->id_lahan]) }}" class="btn btn-success btn-sm">
+                    <a href="{{ route('tanamans.create', ['lahan_id' => $lahan->ID_Lahan]) }}" class="btn btn-success btn-sm">
                         <i class="bi bi-plus-circle"></i> Tambah Tanaman
                     </a>
                 </div>
@@ -72,13 +71,13 @@
                                 @forelse($lahan->tanamans as $tanaman)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $tanaman->jenis_tanaman }}</td>
-                                    <td>{{ $tanaman->varietas }}</td>
-                                    <td>{{ $tanaman->tanggal_tanam->format('d/m/Y') }}</td>
+                                    <td>{{ $tanaman->Jenis_Tanaman }}</td>
+                                    <td>{{ $tanaman->Varietas }}</td>
+                                    <td>{{ $tanaman->TanggalPenanamanFormatted }}</td>
                                     <td>
-                                        <span class="badge bg-{{ $tanaman->status == 'panen' ? 'success' : 
-                                            ($tanaman->status == 'gagal' ? 'danger' : 'info') }}">
-                                            {{ ucfirst($tanaman->status) }}
+                                        <span class="badge bg-{{ $tanaman->Status == 'panen' ? 'success' : 
+                                            ($tanaman->Status == 'gagal' ? 'danger' : 'info') }}">
+                                            {{ ucfirst($tanaman->Status) }}
                                         </span>
                                     </td>
                                     <td>
@@ -99,24 +98,6 @@
 
         <!-- Sidebar -->
         <div class="col-md-4">
-            <!-- Rekomendasi Terbaru -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Rekomendasi Terbaru</h5>
-                </div>
-                <div class="card-body">
-                    @forelse($lahan->rekomendasis->take(3) as $rekomendasi)
-                    <div class="mb-3">
-                        <h6>{{ $rekomendasi->judul }}</h6>
-                        <p class="small text-muted">{{ $rekomendasi->tanggal_rekomendasi->format('d/m/Y') }}</p>
-                        <p>{{ Str::limit($rekomendasi->isi_rekomendasi, 100) }}</p>
-                    </div>
-                    @empty
-                    <p class="text-muted">Belum ada rekomendasi</p>
-                    @endforelse
-                </div>
-            </div>
-
             <!-- Riwayat Hama & Penyakit -->
             <div class="card">
                 <div class="card-header">
@@ -124,12 +105,18 @@
                 </div>
                 <div class="card-body">
                     @php
-                        $hamaPenyakit = $lahan->tanamans->flatMap->hamaPenyakits->sortByDesc('tanggal_laporan')->take(5);
+                        $hamaPenyakit = collect();
+                        foreach ($lahan->tanamans as $tanaman) {
+                            if ($tanaman->hamas) {
+                                $hamaPenyakit = $hamaPenyakit->concat($tanaman->hamas);
+                            }
+                        }
+                        $hamaPenyakit = $hamaPenyakit->sortByDesc('tanggal_laporan')->take(5);
                     @endphp
                     @forelse($hamaPenyakit as $hama)
                     <div class="mb-3">
                         <h6>{{ $hama->nama }}</h6>
-                        <p class="small text-muted">{{ $hama->tanggal_laporan->format('d/m/Y') }}</p>
+                        <p class="small text-muted">{{ optional($hama->tanggal_laporan)->format('d/m/Y') ?? '-' }}</p>
                         <p>{{ Str::limit($hama->deskripsi, 100) }}</p>
                     </div>
                     @empty
